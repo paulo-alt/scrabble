@@ -1,27 +1,29 @@
-#include <ctype.h>
-#include <cs50.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
+int compute_score(char word[]);
+
+// Pontuação das letras de A a Z
 int POINTS[] = {
     1, 3, 3, 2, 1, 4, 2, 4, 1, 8,
     5, 1, 3, 1, 1, 3, 10, 1, 1, 1,
     1, 4, 4, 8, 4, 10
 };
 
-int compute_score(string word);
-
 int main(void)
 {
-    // Solicita palavras
-    string word1 = get_string("Player 1: ");
-    string word2 = get_string("Player 2: ");
+    char word1[100], word2[100];
 
-    // Calcula pontuação
+    printf("Player 1: ");
+    scanf("%s", word1);
+
+    printf("Player 2: ");
+    scanf("%s", word2);
+
     int score1 = compute_score(word1);
     int score2 = compute_score(word2);
 
-    // Compara e declara o vencedor
     if (score1 > score2)
     {
         printf("Player 1 wins!\n");
@@ -34,24 +36,21 @@ int main(void)
     {
         printf("Tie!\n");
     }
+
+    return 0;
 }
 
-int compute_score(string word)
+int compute_score(char word[])
 {
     int score = 0;
-
-    for (int i = 0, n = strlen(word); i < n; i++)
+    for (int i = 0; word[i] != '\0'; i++)
     {
-        char c = word[i];
-
-        // Verifica se é uma letra
-        if (isalpha(c))
+        if (isalpha(word[i]))
         {
-            // Converte para maiúscula e calcula índice no array POINTS
-            int index = toupper(c) - 'A';
+            // Converte para maiúscula e calcula índice (A=0, B=1,...)
+            int index = toupper(word[i]) - 'A';
             score += POINTS[index];
         }
     }
-
     return score;
 }
